@@ -36,33 +36,40 @@ function Header() {
         },
     ]
   return (
-    <header className='py-3 shadow bg-gray-500'>
-        <Container>
-            <nav className='flex'>
-                <div className='mr-4 '>
-                    <Link to='/'>
-                    <Logo  width='50px'/>
-                    </Link>
-                </div>
-                <ul className='flex ml-auto'>
-                    {navLinks.map((navlink) => 
-                        navlink.active ? (
-                            <li key={navlink.name}>
-                                <button className='inline-block px-6 py-2 duration-200 hover:bg-blue-100 rounded-full' onClick={()=> navigate(navlink.url)}>
-                                    {navlink.name}
-                                </button>
-                            </li>
-                        ) : null
-                    )}
-                    { authstatus && (
-                        <li>
-                            <LogoutBtn />
-                        </li>
-                    )}
-                </ul>
-            </nav>
-        </Container>
-    </header>
+    <header className="sticky top-0 z-50 bg-white/90 backdrop-blur shadow-md">
+  <Container>
+    <nav className="flex items-center justify-between py-3">
+      {/* Logo */}
+      <Link to="/" className="flex items-center space-x-2">
+        <Logo width="48px" />
+        <span className="text-lg font-bold text-gray-800">MyBlog</span>
+      </Link>
+
+      {/* Nav Links */}
+      <ul className="flex items-center space-x-4">
+        {navLinks.map((navlink) =>
+          navlink.active ? (
+            <li key={navlink.name}>
+              <button
+                onClick={() => navigate(navlink.url)}
+                className="px-4 py-2 rounded-md text-sm font-medium text-gray-700 hover:bg-blue-100 hover:text-blue-700 transition duration-200"
+              >
+                {navlink.name}
+              </button>
+            </li>
+          ) : null
+        )}
+
+        {authstatus && (
+          <li>
+            <LogoutBtn />
+          </li>
+        )}
+      </ul>
+    </nav>
+  </Container>
+</header>
+
   )
 }
 

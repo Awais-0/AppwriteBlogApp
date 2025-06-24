@@ -67,53 +67,82 @@ function PostForm({post}) {
         }
     }, [watch, slugTransform, setValue])
     return (
-        <form onSubmit={handleSubmit(submit)} className="flex flex-wrap">
-            <div className="w-2/3 px-2">
-                <Input
-                    label="Title :"
-                    placeholder="Title"
-                    className="mb-4"
-                    {...register("title", { required: true })}
-                />
-                <Input
-                    label="Slug :"
-                    placeholder="Slug"
-                    className="mb-4"
-                    {...register("slug", { required: true })}
-                    onInput={(e) => {
-                        setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true });
-                    }}
-                />
-                <RTE label="Content :" name="content" control={control} defaultValue={getValues("content")} />
-            </div>
-            <div className="w-1/3 px-2">
-                <Input
-                    label="Featured Image :"
-                    type="file"
-                    className="mb-4"
-                    accept="image/png, image/jpg, image/jpeg, image/gif"
-                    {...register("image", { required: !post })}
-                />
-                {post && (
-                    <div className="w-full mb-4">
-                        <img
-                            src={dbservice.getFilePreview(post.image)}
-                            alt={post.title}
-                            className="rounded-lg"
-                        />
-                    </div>
-                )}
-                <Select
-                    options={["active", "inactive"]}
-                    label="Status"
-                    className="mb-4"
-                    {...register("status", { required: true })}
-                />
-                <Button type="submit" bgColor={post ? "bg-green-500" : undefined} className="w-full">
-                    {post ? "Update" : "Submit"}
-                </Button>
-            </div>
-        </form>
+        <form
+  onSubmit={handleSubmit(submit)}
+  className="flex flex-col lg:flex-row gap-6 p-6 bg-white shadow-md rounded-lg"
+>
+  {/* Left: Title, Slug, Content */}
+  <div className="lg:w-2/3 w-full">
+    <div className="mb-4">
+      <Input
+        label="Title"
+        placeholder="Enter post title"
+        className="w-full"
+        {...register("title", { required: true })}
+      />
+    </div>
+
+    <div className="mb-4">
+      <Input
+        label="Slug"
+        placeholder="Post slug (auto-generated)"
+        className="w-full"
+        {...register("slug", { required: true })}
+        onInput={(e) =>
+          setValue("slug", slugTransform(e.currentTarget.value), { shouldValidate: true })
+        }
+      />
+    </div>
+
+    <div className="mb-4">
+      <RTE
+        label="Content"
+        name="content"
+        control={control}
+        defaultValue={getValues("content")}
+      />
+    </div>
+  </div>
+
+  {/* Right: Image, Status, Submit */}
+  <div className="lg:w-1/3 w-full flex flex-col gap-4">
+    <div>
+      <Input
+        label="Featured Image"
+        type="file"
+        accept="image/png, image/jpg, image/jpeg, image/gif"
+        className="w-full"
+        {...register("image", { required: !post })}
+      />
+    </div>
+
+    {post && (
+      <div className="w-full">
+        <img
+          src={dbservice.getFilePreview(post.image)}
+          alt={post.title}
+          className="rounded-lg w-full object-cover"
+        />
+      </div>
+    )}
+
+    <Select
+      label="Status"
+      options={["active", "inactive"]}
+      className="w-full"
+      {...register("status", { required: true })}
+    />
+
+    <Button
+      type="submit"
+      bgColor={post ? "bg-green-600" : "bg-blue-600"}
+      className="text-white font-semibold py-2 w-full hover:opacity-90 transition"
+    >
+      {post ? "Update Post" : "Submit Post"}
+    </Button>
+  </div>
+</form>
+
     )
 }
 
