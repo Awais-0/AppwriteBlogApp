@@ -1,0 +1,7 @@
+react-router-dom
+react-redux
+@reduxjs/toolkit
+appwrite
+@tinymce/tinymce-react
+html-react-parser
+react-hook-form
